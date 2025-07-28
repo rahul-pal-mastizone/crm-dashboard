@@ -66,5 +66,27 @@ router.delete('/:id', async (req, res) => {
   }
 });
 
+// Update a client
+router.put('/:id', async (req, res) => {
+  try {
+    const { name, email, phone } = req.body;
+    if (!name || !email || !phone) {
+      return res.status(400).json({ error: 'All fields are required.' });
+    }
+
+    const updatedClient = await Client.findByIdAndUpdate(
+      req.params.id,
+      { name, email, phone },
+      { new: true }
+    );
+
+    if (!updatedClient) return res.status(404).json({ error: 'Client not found' });
+    res.status(200).json(updatedClient);
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating client' });
+  }
+});
+
+
 module.exports = router;
 

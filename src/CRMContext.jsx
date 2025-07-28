@@ -71,6 +71,34 @@ const addClient = async (clientData) => {
     }
   };
 
+  const updateClient = async (id, updatedData) => {
+  try {
+    await axios.put(`http://localhost:5000/api/clients/${id}`, updatedData);
+    await fetchClients();
+  } catch (err) {
+    console.error('Failed to update client:', err);
+  }
+  };
+
+  const updateProject = async (id, updatedData) => {
+  try {
+    await axios.put(`http://localhost:5000/api/projects/${id}`, updatedData);
+    await fetchProjects();
+  } catch (err) {
+    console.error('Failed to update project:', err);
+  }
+  };
+
+  const deleteProject = async (id) => {
+  try {
+    await axios.delete(`http://localhost:5000/api/projects/${id}`);
+    await fetchProjects();
+  } catch (err) {
+    console.error('Failed to delete project:', err);
+  }
+  };
+
+
   useEffect(() => {
     fetchClients();
     fetchProjects();
@@ -84,7 +112,10 @@ const addClient = async (clientData) => {
         addClient,
         convertClient,
         deleteClient,
+        updateClient,
         addProject,
+        updateProject,
+        deleteProject,
         fetchClients,
         fetchProjects,
       }}

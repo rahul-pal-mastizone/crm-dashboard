@@ -24,4 +24,38 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Update a project
+router.put('/:id', async (req, res) => {
+  try {
+    const { projectName, clientName, startDate, status } = req.body;
+    if (!projectName || !clientName || !startDate || !status) {
+      return res.status(400).json({ error: 'All fields are required.' });
+    }
+
+    const updated = await Project.findByIdAndUpdate(
+      req.params.id,
+      { projectName, clientName, startDate, status },
+      { new: true }
+    );
+
+    if (!updated) return res.status(404).json({ error: 'Project not found' });
+    res.status(200).json(updated);
+  } catch (error) {
+    res.status(500).json({ error: 'Error updating project' });
+  }
+});
+
+// DELETE a project
+router.delete('/:id', async (req, res) => {
+  try {
+    const deleted = await Project.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: 'Project not found' });
+    res.status(200).json({ message: 'Project deleted successfully' });
+  } catch (error) {
+    res.status(400).json({ message: 'Error deleting project' });
+  }
+});
+
+
+
 module.exports = router;
