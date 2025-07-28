@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Clients = () => {
+const Clients = ({ onAddClient }) => {
   const [clients, setClients] = useState([]);
   const [formData, setFormData] = useState({
     name: '',
@@ -16,8 +16,10 @@ const Clients = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setClients([...clients, { ...formData, id: Date.now() }]);
+    const newClient = { ...formData, id: Date.now() };
+    setClients([...clients, newClient]);
     setFormData({ name: '', email: '', phone: '', isConverted: false });
+    if (onAddClient) onAddClient(newClient);
   };
 
   const convertClient = (id) => {
