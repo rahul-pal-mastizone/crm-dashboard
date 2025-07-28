@@ -1,13 +1,16 @@
 import React from 'react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 const Dashboard = ({ clients = [], projects = [] }) => {
+  const location = useLocation();
   const totalClients = clients.length;
   const convertedClients = clients.filter(c => c.isConverted).length;
   const totalProjects = projects.length;
   const completedProjects = projects.filter(p => p.status === 'Completed').length;
+
+  const isHomeRoute = location.pathname === '/' || location.pathname === '/home';
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -17,31 +20,33 @@ const Dashboard = ({ clients = [], projects = [] }) => {
         <main className="p-6 overflow-auto">
           <Outlet />
 
-          <div className="bg-white shadow-md rounded-lg p-6 mt-4">
-            <h1 className="text-4xl font-extrabold text-gray-800 mb-8">📊 Dashboard Summary</h1>
+          {isHomeRoute && (
+            <div className="bg-white shadow-md rounded-lg p-6 mt-4">
+              <h1 className="text-4xl font-extrabold text-gray-800 mb-8">📊 Dashboard Summary</h1>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              <div className="bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-xl p-5 shadow-lg">
-                <h2 className="text-lg">Total Clients</h2>
-                <p className="text-3xl font-bold">{totalClients}</p>
-              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div className="bg-gradient-to-br from-blue-500 to-blue-700 text-white rounded-xl p-5 shadow-lg">
+                  <h2 className="text-lg">Total Clients</h2>
+                  <p className="text-3xl font-bold">{totalClients}</p>
+                </div>
 
-              <div className="bg-gradient-to-br from-green-500 to-green-700 text-white rounded-xl p-5 shadow-lg">
-                <h2 className="text-lg">Converted Clients</h2>
-                <p className="text-3xl font-bold">{convertedClients}</p>
-              </div>
+                <div className="bg-gradient-to-br from-green-500 to-green-700 text-white rounded-xl p-5 shadow-lg">
+                  <h2 className="text-lg">Converted Clients</h2>
+                  <p className="text-3xl font-bold">{convertedClients}</p>
+                </div>
 
-              <div className="bg-gradient-to-br from-purple-500 to-purple-700 text-white rounded-xl p-5 shadow-lg">
-                <h2 className="text-lg">Total Projects</h2>
-                <p className="text-3xl font-bold">{totalProjects}</p>
-              </div>
+                <div className="bg-gradient-to-br from-purple-500 to-purple-700 text-white rounded-xl p-5 shadow-lg">
+                  <h2 className="text-lg">Total Projects</h2>
+                  <p className="text-3xl font-bold">{totalProjects}</p>
+                </div>
 
-              <div className="bg-gradient-to-br from-yellow-500 to-yellow-700 text-white rounded-xl p-5 shadow-lg">
-                <h2 className="text-lg">Completed Projects</h2>
-                <p className="text-3xl font-bold">{completedProjects}</p>
+                <div className="bg-gradient-to-br from-yellow-500 to-yellow-700 text-white rounded-xl p-5 shadow-lg">
+                  <h2 className="text-lg">Completed Projects</h2>
+                  <p className="text-3xl font-bold">{completedProjects}</p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </main>
       </div>
     </div>
