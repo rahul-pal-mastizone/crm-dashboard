@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import { CRMContext } from '../CRMContext';
 
 const Clients = ({ onAddClient }) => {
-  const [clients, setClients] = useState([]);
+  const { clients, setClients } = useContext(CRMContext);
   const [formData, setFormData] = useState({
     name: '',
     email: '',

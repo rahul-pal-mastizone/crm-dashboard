@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Sidebar from './Sidebar';
 import Navbar from './Navbar';
 import { Outlet, useLocation } from 'react-router-dom';
+import { CRMContext } from '../CRMContext';
 
-const Dashboard = ({ clients = [], projects = [] }) => {
+const Dashboard = () => {
   const location = useLocation();
+  const { clients, projects } = useContext(CRMContext);
+
   const totalClients = clients.length;
   const convertedClients = clients.filter(c => c.isConverted).length;
   const totalProjects = projects.length;
