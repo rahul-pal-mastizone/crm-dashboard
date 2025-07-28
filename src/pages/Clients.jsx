@@ -1,8 +1,9 @@
 import React, { useState, useContext } from 'react';
 import { CRMContext } from '../CRMContext';
 
-const Clients = ({ onAddClient }) => {
-  const { clients, setClients } = useContext(CRMContext);
+const Clients = () => {
+  const { clients, addClient, convertClient, deleteClient } = useContext(CRMContext);
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -17,14 +18,8 @@ const Clients = ({ onAddClient }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newClient = { ...formData, id: Date.now() };
-    setClients([...clients, newClient]);
+    addClient(formData);
     setFormData({ name: '', email: '', phone: '', isConverted: false });
-    if (onAddClient) onAddClient(newClient);
-  };
-
-  const convertClient = (id) => {
-    setClients(clients.map(c => c.id === id ? { ...c, isConverted: true } : c));
   };
 
   return (
@@ -50,17 +45,25 @@ const Clients = ({ onAddClient }) => {
         </thead>
         <tbody>
           {clients.map(client => (
-            <tr key={client.id} className="text-center">
+            <tr key={client._id} className="text-center">
               <td className="border px-4 py-2">{client.name}</td>
               <td className="border px-4 py-2">{client.email}</td>
               <td className="border px-4 py-2">{client.phone}</td>
               <td className="border px-4 py-2">{client.isConverted ? 'Converted' : 'Not Converted'}</td>
               <td className="border px-4 py-2">
                 {!client.isConverted && (
-                  <button onClick={() => convertClient(client.id)} className="bg-green-500 text-white px-2 py-1 rounded">
+                  <button onClick={() => convertClient(client._id)} className="bg-green-500 text-white px-2 py-1 rounded">
                     Convert
                   </button>
                 )}
+                {!client.isConverted && (
+                    <button onClick={() => convertClient(client._id)} className="bg-green-500 text-white px-2 py-1 rounded mr-2">
+                      Convert
+                    </button>
+                  )}
+                  <button onClick={() => deleteClient(client._id)} className="bg-red-500 text-white px-2 py-1 rounded">
+                    Delete
+                  </button>
               </td>
             </tr>
           ))}

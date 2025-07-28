@@ -1,15 +1,94 @@
-import React, { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
+import axios from 'axios';
 
-// 1. Create the context
 export const CRMContext = createContext();
 
-// 2. Create the provider component
 export const CRMProvider = ({ children }) => {
   const [clients, setClients] = useState([]);
   const [projects, setProjects] = useState([]);
 
+  const fetchClients = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/clients');
+      setClients(res.data);
+    } catch (err) {
+      console.error('Failed to fetch clients:', err);
+    }
+  };
+
+  const fetchProjects = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/projects');
+      setProjects(res.data);
+    } catch (err) {
+      console.error('Failed to fetch projects:', err);
+    }
+  };
+
+const addClient = async (clientData) => {
+  try {
+    const { name, email, phone } = clientData;
+
+    // Only send required fields
+    await axios.post('http://localhost:5000/api/clients', {
+      name,
+      email,
+      phone
+    });
+
+    await fetchClients();
+  } catch (err) {
+    console.error('❌ Failed to add client:', err.response?.data || err.message);
+  }
+};
+
+
+  const convertClient = async (id) => {
+    try {
+      await axios.put(`http://localhost:5000/api/clients/${id}/convert`);
+      await fetchClients();
+    } catch (err) {
+      console.error('Failed to convert client:', err);
+    }
+  };
+
+  const deleteClient = async (id) => {
+  try {
+    await axios.delete(`http://localhost:5000/api/clients/${id}`);
+    await fetchClients();
+  } catch (err) {
+    console.error('Failed to delete client:', err);
+  }
+  };
+
+
+  const addProject = async (data) => {
+    try {
+      await axios.post('http://localhost:5000/api/projects', data);
+      await fetchProjects();
+    } catch (err) {
+      console.error('Failed to add project:', err);
+    }
+  };
+
+  useEffect(() => {
+    fetchClients();
+    fetchProjects();
+  }, []);
+
   return (
-    <CRMContext.Provider value={{ clients, setClients, projects, setProjects }}>
+    <CRMContext.Provider
+      value={{
+        clients,
+        projects,
+        addClient,
+        convertClient,
+        deleteClient,
+        addProject,
+        fetchClients,
+        fetchProjects,
+      }}
+    >
       {children}
     </CRMContext.Provider>
   );
