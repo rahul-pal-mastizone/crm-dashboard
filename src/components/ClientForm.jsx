@@ -1,38 +1,73 @@
 import { useState } from 'react';
+import axios from 'axios';
 
 const ClientForm = () => {
   const [clientName, setClientName] = useState('');
   const [clientEmail, setClientEmail] = useState('');
+  const [clientCompany, setClientCompany] = useState('');
+  const [clientPhone, setClientPhone] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission, e.g., add to client list or send to a backend
-    console.log(`Client Name: ${clientName}, Email: ${clientEmail}`);
+
+    // Simple validation
+    if (!clientName || !clientEmail || !clientCompany || !clientPhone) {
+      alert('Please fill in all fields.');
+      return;
+    }
+
+    const newClient = {
+      name: clientName,
+      email: clientEmail,
+      company: clientCompany,
+      phone: clientPhone,
+    };
+
+    try {
+      await axios.post('http://localhost:5000/api/clients', newClient);
+      alert('Client added successfully');
+      // Clear form
+      setClientName('');
+      setClientEmail('');
+      setClientCompany('');
+      setClientPhone('');
+    } catch (error) {
+      console.error('Error adding client:', error);
+      alert('Failed to add client');
+    }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="name" className="block text-sm">Client Name</label>
-        <input
-          type="text"
-          id="name"
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
-          value={clientName}
-          onChange={(e) => setClientName(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="email" className="block text-sm">Client Email</label>
-        <input
-          type="email"
-          id="email"
-          className="mt-1 p-2 border border-gray-300 rounded w-full"
-          value={clientEmail}
-          onChange={(e) => setClientEmail(e.target.value)}
-        />
-      </div>
-      <button type="submit" className="bg-blue-500 text-white p-2 rounded">Add Client</button>
+    <form onSubmit={handleSubmit} className="space-y-4 p-6 bg-white shadow-md rounded-lg w-full max-w-md mx-auto">
+      <input
+        type="text"
+        placeholder="Client Name"
+        value={clientName}
+        onChange={(e) => setClientName(e.target.value)}
+        className="p-2 border border-gray-300 rounded-md w-full"
+      />
+      <input
+        type="email"
+        placeholder="Client Email"
+        value={clientEmail}
+        onChange={(e) => setClientEmail(e.target.value)}
+        className="p-2 border border-gray-300 rounded-md w-full"
+      />
+      <input
+        type="text"
+        placeholder="Company"
+        value={clientCompany}
+        onChange={(e) => setClientCompany(e.target.value)}
+        className="p-2 border border-gray-300 rounded-md w-full"
+      />
+      <input
+        type="text"
+        placeholder="Phone Number"
+        value={clientPhone}
+        onChange={(e) => setClientPhone(e.target.value)}
+        className="p-2 border border-gray-300 rounded-md w-full"
+      />
+      <button type="submit" className="bg-blue-500 text-white p-2 rounded w-full">Add Client</button>
     </form>
   );
 };
