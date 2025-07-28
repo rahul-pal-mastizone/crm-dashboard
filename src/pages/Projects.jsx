@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
+import ProjectForm from '../components/ProjectForm';
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
-  const [clients] = useState([
-    { id: 1, name: 'Client A' },
-    { id: 2, name: 'Client B' },
-  ]);
+  const [clients, setClients] = useState([]);
 
   const handleAddProject = (newProject) => {
     setProjects([...projects, newProject]);
+  };
+
+  const handleUpdateClients = (newClient) => {
+    setClients(prev => [...prev, newClient]);
   };
 
   return (
