@@ -5,14 +5,21 @@ const router = express.Router();
 // Add a new client
 router.post('/', async (req, res) => {
   try {
-    const { name, email, company, phone } = req.body;
-    const newClient = new Client({ name, email, company, phone });
+    const { name, email, phone } = req.body;
+
+    if (!name || !email || !phone) {
+      return res.status(400).json({ error: 'All fields (name, email, phone) are required.' });
+    }
+
+    const newClient = new Client({ name, email, phone });
     await newClient.save();
     res.status(201).json(newClient);
   } catch (error) {
-    res.status(400).json({ message: 'Error adding client' });
+    res.status(400).json({ error: 'Error adding client', details: error.message });
   }
 });
+
+
 
 // Get all clients
 router.get('/', async (req, res) => {
@@ -48,4 +55,17 @@ router.put('/:id/convert', async (req, res) => {
   }
 });
 
+// Delete a client
+router.delete('/:id', async (req, res) => {
+  try {
+    const client = await Client.findByIdAndDelete(req.params.id);
+    if (!client) return res.status(404).json({ message: 'Client not found' });
+    res.status(200).json({ message: 'Client deleted successfully' });
+  } catch (error) {
+    res.status(400).json({ message: 'Error deleting client' });
+  }
+});
+
+
 module.exports = router;
+
