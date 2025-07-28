@@ -43,14 +43,20 @@ const addClient = async (clientData) => {
 };
 
 
-  const convertClient = async (id) => {
-    try {
-      await axios.put(`http://localhost:5000/api/clients/${id}/convert`);
-      await fetchClients();
-    } catch (err) {
-      console.error('Failed to convert client:', err);
-    }
-  };
+const convertClient = async (id) => {
+  try {
+    await axios.put(`http://localhost:5000/api/clients/${id}/convert`);
+    
+    // Fetch updated clients from backend
+    await fetchClients();
+
+    // Also fetch projects, since a new one was added
+    await fetchProjects();
+  } catch (err) {
+    console.error('Failed to convert client:', err);
+  }
+};
+
 
   const deleteClient = async (id) => {
   try {
