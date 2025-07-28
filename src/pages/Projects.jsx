@@ -15,16 +15,18 @@ const Projects = () => {
 
       <div className="mt-6">
         <h2 className="text-xl font-semibold">Projects List</h2>
-        <ul>
-          {projects.map((project, index) => (
-            <li key={index} className="p-4 border-b">
-              <h3 className="text-lg">{project.projectName}</h3>
-              <p>Status: {project.status}</p>
-              <p>Client: {project.clientName}</p>
+        <ul className="space-y-4 mt-4">
+            {projects.map((project, index) => (
+            <li key={index} className="p-4 bg-gray-50 border border-gray-200 rounded-md shadow-sm">
+                <h3 className="text-lg font-semibold">{project.projectName}</h3>
+                <p>Status: <span className="font-medium">{project.status}</span></p>
+                <p>Client: {project.clientName}</p>
+                <p>Start Date: {project.startDate}</p>
             </li>
-          ))}
+            ))}
         </ul>
       </div>
+
     </div>
   );
 };
