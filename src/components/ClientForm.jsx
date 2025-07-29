@@ -24,7 +24,7 @@ const ClientForm = () => {
     };
 
     try {
-      await axios.post('http://localhost:5000/api/clients', newClient);
+      await axios.post('https://crm-dashboard-9j1c.onrender.com/api/clients', newClient);
       alert('Client added successfully');
       // Clear form
       setClientName('');
