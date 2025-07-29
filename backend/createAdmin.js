@@ -1,8 +1,9 @@
+require('dotenv').config(); // Add this at the top
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const User = require('./models/User'); // update path if needed
 
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
