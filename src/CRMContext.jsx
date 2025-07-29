@@ -9,7 +9,7 @@ export const CRMProvider = ({ children }) => {
 
   const fetchClients = async () => {
     try {
-      const res = await axios.get('https://crm-backend-382j.onrender.com/api/clients');
+      const res = await axios.get('https://crm-dashboard-9j1c.onrender.com/api/clients');
       setClients(res.data);
     } catch (err) {
       console.error('Failed to fetch clients:', err);
@@ -18,7 +18,7 @@ export const CRMProvider = ({ children }) => {
 
   const fetchProjects = async () => {
     try {
-      const res = await axios.get('https://crm-backend-382j.onrender.com/api/projects');
+      const res = await axios.get('https://crm-dashboard-9j1c.onrender.com/api/projects');
       setProjects(res.data);
     } catch (err) {
       console.error('Failed to fetch projects:', err);
@@ -30,7 +30,7 @@ const addClient = async (clientData) => {
     const { name, email, phone } = clientData;
 
     // Only send required fields
-    await axios.post('https://crm-backend-382j.onrender.com/api/clients', {
+    await axios.post('https://crm-dashboard-9j1c.onrender.com/api/clients', {
       name,
       email,
       phone
@@ -45,7 +45,7 @@ const addClient = async (clientData) => {
 
 const convertClient = async (id) => {
   try {
-    await axios.put(`https://crm-backend-382j.onrender.com/api/clients/${id}/convert`);
+    await axios.put(`https://crm-dashboard-9j1c.onrender.com/api/clients/${id}/convert`);
     
     // Fetch updated clients from backend
     await fetchClients();
@@ -60,7 +60,7 @@ const convertClient = async (id) => {
 
   const deleteClient = async (id) => {
   try {
-    await axios.delete(`https://crm-backend-382j.onrender.com/api/clients/${id}`);
+    await axios.delete(`https://crm-dashboard-9j1c.onrender.com/api/clients/${id}`);
     await fetchClients();
   } catch (err) {
     console.error('Failed to delete client:', err);
@@ -70,7 +70,7 @@ const convertClient = async (id) => {
 
   const addProject = async (data) => {
     try {
-      await axios.post('https://crm-backend-382j.onrender.com/api/projects', data);
+      await axios.post('https://crm-dashboard-9j1c.onrender.com/api/projects', data);
       await fetchProjects();
     } catch (err) {
       console.error('Failed to add project:', err);
@@ -79,7 +79,7 @@ const convertClient = async (id) => {
 
   const updateClient = async (id, updatedData) => {
   try {
-    await axios.put(`https://crm-backend-382j.onrender.com/api/clients/${id}`, updatedData);
+    await axios.put(`https://crm-dashboard-9j1c.onrender.com/api/clients/${id}`, updatedData);
     await fetchClients();
   } catch (err) {
     console.error('Failed to update client:', err);
@@ -88,7 +88,7 @@ const convertClient = async (id) => {
 
   const updateProject = async (id, updatedData) => {
   try {
-    await axios.put(`https://crm-backend-382j.onrender.com/api/projects/${id}`, updatedData);
+    await axios.put(`https://crm-dashboard-9j1c.onrender.com/api/projects/${id}`, updatedData);
     await fetchProjects();
   } catch (err) {
     console.error('Failed to update project:', err);
@@ -97,7 +97,7 @@ const convertClient = async (id) => {
 
   const deleteProject = async (id) => {
   try {
-    await axios.delete(`https://crm-backend-382j.onrender.com/api/projects/${id}`);
+    await axios.delete(`https://crm-dashboard-9j1c.onrender.com/api/projects/${id}`);
     await fetchProjects();
   } catch (err) {
     console.error('Failed to delete project:', err);
