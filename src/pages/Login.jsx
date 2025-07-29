@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -13,12 +14,20 @@ const Login = () => {
       const res = await axios.post('https://crm-dashboard-9j1c.onrender.com/api/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       alert('Login successful!');
-      navigate('/clients'); // redirect to dashboard or clients
+      navigate('/dashboard'); // redirect to dashboard or clients
     } catch (error) {
       console.error('Login failed:', error.response?.data?.message || error.message);
       alert('Login failed. Check your credentials.');
     }
   };
+
+  useEffect(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    navigate('/dashboard'); // Already logged in? Redirect.
+  }
+  }, []);
+
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-500 to-purple-600">
