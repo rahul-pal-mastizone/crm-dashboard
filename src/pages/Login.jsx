@@ -10,7 +10,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('https://crm-backend-382j.onrender.com/api/auth/login', { email, password });
+      const res = await axios.post('https://crm-dashboard-9j1c.onrender.com/api/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       alert('Login successful!');
       navigate('/clients'); // redirect to dashboard or clients
