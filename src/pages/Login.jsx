@@ -14,7 +14,7 @@ const Login = () => {
       const res = await axios.post('https://crm-dashboard-9j1c.onrender.com/api/auth/login', { email, password });
       localStorage.setItem('token', res.data.token);
       alert('Login successful!');
-      navigate('/dashboard'); // redirect to dashboard or clients
+      navigate('/'); // redirect to dashboard or clients
     } catch (error) {
       console.error('Login failed:', error.response?.data?.message || error.message);
       alert('Login failed. Check your credentials.');
@@ -24,7 +24,7 @@ const Login = () => {
   useEffect(() => {
   const token = localStorage.getItem('token');
   if (token) {
-    navigate('/dashboard'); // Already logged in? Redirect.
+    navigate('/'); // Already logged in? Redirect.
   }
   }, []);
 
