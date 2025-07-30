@@ -58,7 +58,7 @@ crm-dashboard/
 │   ├── App.jsx             # Route definitions
 │   ├── main.jsx            # App entry point
 │   └── styles/             # Tailwind config
-
+````
 ---
 
 ## ▶️ Running Locally
@@ -84,16 +84,8 @@ npm start
 cd frontend
 npm install
 npm run dev
+````
 
-
----
-
-### ✅ **3. Final Section Headers Cleanup**
-
-Make sure to **end with a strong summary or license**, like:
-
-```md
----
 
 ## 📄 License
 
